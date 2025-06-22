@@ -1,0 +1,36 @@
+<svg width="320" height="70" viewBox="0 0 320 70" xmlns="http://www.w3.org/2000/svg">
+  <!-- 背景の優しい円形 -->
+  <circle cx="25" cy="35" r="22" fill="#F2C094" opacity="0.3"/>
+  <circle cx="35" cy="35" r="18" fill="#C5D4BC" opacity="0.4"/>
+  
+  <!-- メインアイコン：寄り添うハート -->
+  <g transform="translate(15, 23)">
+    <!-- 大きなハート -->
+    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" 
+          fill="#E5A36C" opacity="0.8"/>
+    <!-- 小さなハート（寄り添う感じ） -->
+    <path d="M18 15.35l-0.7-0.64C15.2 12.86 14 11.78 14 10.5 14 9.42 14.92 8.5 16 8.5c0.87 0 1.71 0.41 2.25 1.05C18.79 8.91 19.63 8.5 20.5 8.5 21.58 8.5 22.5 9.42 22.5 10.5c0 1.28-1.2 2.36-3.2 4.21L18 15.35z" 
+          fill="#A3B899" opacity="0.9"/>
+  </g>
+  
+  <!-- メインテキスト部分 -->
+  <g font-family="'M PLUS Rounded 1c', sans-serif">
+    <!-- yorisoi recipe を1行で -->
+    <text x="65" y="30" font-size="22" font-weight="600" fill="#E5A36C" letter-spacing="0.02em">yorisoi</text>
+    <text x="155" y="30" font-size="18" font-weight="500" fill="#A3B899" letter-spacing="0.03em">recipe</text>
+    
+    <!-- コンセプト文言 -->
+    <text x="65" y="50" font-size="11" font-weight="400" fill="#8B7355" letter-spacing="0.05em">あなたの毎日に寄り添う、心温まるレシピパートナー</text>
+  </g>
+  
+  <!-- 装飾的な要素：小さな葉っぱ -->
+  <g transform="translate(285, 20)" opacity="0.6">
+    <path d="M8 2C8 2 12 6 8 10C4 6 8 2 8 2Z" fill="#A3B899"/>
+    <path d="M8 10C8 10 4 14 8 18C12 14 8 10 8 10Z" fill="#C5D4BC"/>
+  </g>
+  
+  <!-- 装飾的な要素：小さなドット -->
+  <circle cx="300" cy="40" r="2" fill="#F2C094" opacity="0.7"/>
+  <circle cx="290" cy="45" r="1.5" fill="#E5A36C" opacity="0.5"/>
+  <circle cx="275" cy="15" r="1" fill="#C5D4BC" opacity="0.6"/>
+</svg> 

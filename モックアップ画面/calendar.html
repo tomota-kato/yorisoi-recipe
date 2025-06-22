@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>献立カレンダー - yorisoi recipe</title>
+    <link rel="stylesheet" href="common.css">
+    <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
+    <style>
+        .calendar-container {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 2rem;
+            height: calc(100vh - 200px);
+        }
+        
+        .recipe-bank {
+            background-color: var(--card-background);
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            padding: 1.5rem;
+            overflow-y: auto;
+        }
+        
+        .recipe-mini-card {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem;
+            margin-bottom: 0.5rem;
+            background-color: var(--background-color);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+        
+        .recipe-mini-card:hover {
+            background-color: var(--primary-light);
+            color: white;
+            transform: translateX(5px);
+        }
+        
+        .recipe-mini-card.dragging {
+            opacity: 0.5;
+            border-color: var(--primary-color);
+        }
+        
+        .recipe-mini-image {
+            width: 40px;
+            height: 40px;
+            border-radius: 4px;
+            margin-right: 0.75rem;
+            object-fit: cover;
+        }
+        
+        .calendar-main {
+            background-color: var(--card-background);
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+        
+        .calendar-controls {
+            padding: 1rem;
+            background-color: var(--primary-color);
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .week-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .day-header {
+            padding: 1rem;
+            text-align: center;
+            font-weight: 600;
+            background-color: var(--background-color);
+            border-right: 1px solid var(--border-color);
+        }
+        
+        .day-column {
+            border-right: 1px solid var(--border-color);
+            min-height: 400px;
+        }
+        
+        .day-date {
+            padding: 0.5rem;
+            text-align: center;
+            font-weight: 600;
+            background-color: var(--background-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .meal-slots {
+            padding: 0.5rem;
+        }
+        
+        .meal-slot {
+            min-height: 80px;
+            margin-bottom: 0.5rem;
+            padding: 0.5rem;
+            border: 2px dashed var(--border-color);
+            border-radius: 6px;
+            position: relative;
+            transition: all 0.3s;
+        }
+        
+        .meal-slot:hover {
+            border-color: var(--primary-color);
+            background-color: var(--background-color);
+        }
+        
+        .meal-slot.drop-zone {
+            border-color: var(--primary-color);
+            background-color: var(--primary-light);
+            opacity: 0.3;
+        }
+        
+        .meal-slot.filled {
+            border: 2px solid var(--primary-color);
+            background-color: var(--primary-light);
+            color: white;
+            display: flex;
+            align-items: center;
+            padding: 0.75rem;
+        }
+        
+        .meal-slot-label {
+            position: absolute;
+            top: 2px;
+            left: 4px;
+            font-size: 0.7rem;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+        
+        .meal-slot.filled .meal-slot-label {
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .meal-recipe-name {
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-top: 1rem;
+        }
+        
+        .summary-panel {
+            background-color: var(--card-background);
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .calendar-container {
+                grid-template-columns: 1fr;
+                height: auto;
+            }
+            
+            .recipe-bank {
+                max-height: 300px;
+            }
+            
+            .week-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .day-column {
+                min-height: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ヘッダー -->
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">
+                <img src="yorisoi-logo.svg" alt="yorisoi recipe" style="height: 45px; vertical-align: middle;">
+            </div>
+            <nav class="nav">
+                <a href="dashboard.html">
+                    <iconify-icon icon="lucide:home" style="vertical-align: middle; margin-right: 0.5rem;"></iconify-icon>ダッシュボード
+                </a>
+                <a href="recipes.html">
+                    <iconify-icon icon="lucide:book-open" style="vertical-align: middle; margin-right: 0.5rem;"></iconify-icon>レシピ
+                </a>
+                <a href="calendar.html" style="color: var(--primary-color);">
+                    <iconify-icon icon="lucide:calendar-days" style="vertical-align: middle; margin-right: 0.5rem;"></iconify-icon>献立
+                </a>
+                <a href="shopping.html">
+                    <iconify-icon icon="lucide:shopping-cart" style="vertical-align: middle; margin-right: 0.5rem;"></iconify-icon>買い物
+                </a>
+            </nav>
+            <div class="user-menu">
+                <span>こんにちは、田中さん</span>
+                <button class="btn btn-outline">ログアウト</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- メインコンテンツ -->
+    <main class="container">
+                        <h1 class="mb-3"><iconify-icon icon="lucide:calendar-days" style="vertical-align: middle; margin-right: 0.5rem;"></iconify-icon>献立カレンダー</h1>
+        
+        <div style="display: grid; grid-template-columns: 300px 1fr; gap: 2rem;">
+            <!-- レシピバンク -->
+            <div class="card" style="height: fit-content;">
+                <h3 class="mb-2">🍽️ レシピバンク</h3>
+                <input type="text" class="form-input mb-2" placeholder="レシピを検索...">
+                
+                <div style="max-height: 400px; overflow-y: auto;">
+                    <div class="recipe-mini-card" style="display: flex; align-items: center; padding: 0.75rem; margin-bottom: 0.5rem; background-color: var(--background-color); border-radius: 6px; cursor: pointer;">
+                        <div style="width: 40px; height: 40px; background: var(--primary-color); border-radius: 4px; margin-right: 0.75rem; display: flex; align-items: center; justify-content: center; color: white;">🍛</div>
+                        <div>
+                            <div style="font-weight: bold;">チキンカレー</div>
+                            <div class="text-secondary" style="font-size: 0.75rem;">カレー・スパイス</div>
+                        </div>
+                    </div>
+                    
+                    <div class="recipe-mini-card" style="display: flex; align-items: center; padding: 0.75rem; margin-bottom: 0.5rem; background-color: var(--background-color); border-radius: 6px; cursor: pointer;">
+                        <div style="width: 40px; height: 40px; background: var(--secondary-color); border-radius: 4px; margin-right: 0.75rem; display: flex; align-items: center; justify-content: center; color: white;">🍳</div>
+                        <div>
+                            <div style="font-weight: bold;">オムライス</div>
+                            <div class="text-secondary" style="font-size: 0.75rem;">洋食・簡単</div>
+                        </div>
+                    </div>
+                    
+                    <div class="recipe-mini-card" style="display: flex; align-items: center; padding: 0.75rem; margin-bottom: 0.5rem; background-color: var(--background-color); border-radius: 6px; cursor: pointer;">
+                        <div style="width: 40px; height: 40px; background: var(--accent-color); border-radius: 4px; margin-right: 0.75rem; display: flex; align-items: center; justify-content: center; color: white;">🐟</div>
+                        <div>
+                            <div style="font-weight: bold;">鮭の照り焼き</div>
+                            <div class="text-secondary" style="font-size: 0.75rem;">和食・30分以内</div>
+                        </div>
+                    </div>
+                    
+                    <div class="recipe-mini-card" style="display: flex; align-items: center; padding: 0.75rem; margin-bottom: 0.5rem; background-color: var(--background-color); border-radius: 6px; cursor: pointer;">
+                        <div style="width: 40px; height: 40px; background: #9C27B0; border-radius: 4px; margin-right: 0.75rem; display: flex; align-items: center; justify-content: center; color: white;">🌶️</div>
+                        <div>
+                            <div style="font-weight: bold;">麻婆豆腐</div>
+                            <div class="text-secondary" style="font-size: 0.75rem;">中華・辛い</div>
+                        </div>
+                    </div>
+                    
+                    <div class="recipe-mini-card" style="display: flex; align-items: center; padding: 0.75rem; margin-bottom: 0.5rem; background-color: var(--background-color); border-radius: 6px; cursor: pointer;">
+                        <div style="width: 40px; height: 40px; background: #795548; border-radius: 4px; margin-right: 0.75rem; display: flex; align-items: center; justify-content: center; color: white;">🍖</div>
+                        <div>
+                            <div style="font-weight: bold;">ハンバーグ</div>
+                            <div class="text-secondary" style="font-size: 0.75rem;">洋食・お気に入り</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- カレンダー -->
+            <div class="calendar">
+                <div class="calendar-header">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <button class="btn" style="background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.5); color: white;">◀ 前週</button>
+                        <h2>2024年12月 第3週 (12/15 - 12/21)</h2>
+                        <button class="btn" style="background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.5); color: white;">次週 ▶</button>
+                    </div>
+                </div>
+                
+                <!-- 曜日ヘッダー -->
+                <div class="calendar-grid">
+                    <div class="calendar-day-header">日 (15)</div>
+                    <div class="calendar-day-header">月 (16)</div>
+                    <div class="calendar-day-header">火 (17)</div>
+                    <div class="calendar-day-header">水 (18)</div>
+                    <div class="calendar-day-header">木 (19)</div>
+                    <div class="calendar-day-header">金 (20)</div>
+                    <div class="calendar-day-header">土 (21)</div>
+                </div>
+                
+                <!-- 献立グリッド -->
+                <div class="calendar-grid">
+                    <!-- 日曜日 -->
+                    <div class="calendar-day">
+                        <div class="meal-slot filled">朝: フレンチトースト</div>
+                        <div class="meal-slot">昼: </div>
+                        <div class="meal-slot filled">夕: 鮭の照り焼き</div>
+                    </div>
+                    
+                    <!-- 月曜日 -->
+                    <div class="calendar-day">
+                        <div class="meal-slot filled">朝: オムレツ</div>
+                        <div class="meal-slot filled">昼: パスタサラダ</div>
+                        <div class="meal-slot filled">夕: ハンバーグ</div>
+                    </div>
+                    
+                    <!-- 火曜日 -->
+                    <div class="calendar-day">
+                        <div class="meal-slot">朝: </div>
+                        <div class="meal-slot">昼: </div>
+                        <div class="meal-slot">夕: </div>
+                    </div>
+                    
+                    <!-- 水曜日 -->
+                    <div class="calendar-day">
+                        <div class="meal-slot">朝: </div>
+                        <div class="meal-slot">昼: </div>
+                        <div class="meal-slot">夕: </div>
+                    </div>
+                    
+                    <!-- 木曜日 -->
+                    <div class="calendar-day">
+                        <div class="meal-slot">朝: </div>
+                        <div class="meal-slot">昼: </div>
+                        <div class="meal-slot">夕: </div>
+                    </div>
+                    
+                    <!-- 金曜日 -->
+                    <div class="calendar-day">
+                        <div class="meal-slot">朝: </div>
+                        <div class="meal-slot">昼: </div>
+                        <div class="meal-slot">夕: </div>
+                    </div>
+                    
+                    <!-- 土曜日 -->
+                    <div class="calendar-day">
+                        <div class="meal-slot">朝: </div>
+                        <div class="meal-slot">昼: </div>
+                        <div class="meal-slot">夕: </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- サマリー -->
+        <div class="card mt-3">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                <h3>📊 今週のサマリー</h3>
+                <button class="btn btn-primary" onclick="location.href='shopping.html'">🛒 買い物リストを見る</button>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                <div class="text-center">
+                    <div style="font-size: 1.5rem; font-weight: bold; color: var(--primary-color);">6</div>
+                    <div class="text-secondary">登録済み献立</div>
+                </div>
+                <div class="text-center">
+                    <div style="font-size: 1.5rem; font-weight: bold; color: var(--secondary-color);">15</div>
+                    <div class="text-secondary">空きスロット</div>
+                </div>
+                <div class="text-center">
+                    <div style="font-size: 1.5rem; font-weight: bold; color: var(--accent-color);">12</div>
+                    <div class="text-secondary">必要な材料</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // シンプルなクリック操作でレシピを追加
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('meal-slot') && !e.target.classList.contains('filled')) {
+                const recipes = ['チキンカレー', 'オムライス', '鮭の照り焼き', '麻婆豆腐', 'ハンバーグ'];
+                const selected = prompt('レシピを選択してください:\n' + recipes.map((r, i) => `${i+1}. ${r}`).join('\n'));
+                
+                if (selected && selected >= 1 && selected <= recipes.length) {
+                    const recipeName = recipes[selected - 1];
+                    const mealType = e.target.textContent.includes('朝') ? '朝' : 
+                                   e.target.textContent.includes('昼') ? '昼' : '夕';
+                    
+                    e.target.textContent = `${mealType}: ${recipeName}`;
+                    e.target.classList.add('filled');
+                }
+            }
+        });
+    </script>
+</body>
+</html> 

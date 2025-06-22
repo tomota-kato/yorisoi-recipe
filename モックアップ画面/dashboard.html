@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ダッシュボード - yorisoi recipe</title>
+    <link rel="stylesheet" href="common.css">
+    <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
+</head>
+<body>
+    <!-- ヘッダー -->
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">
+                <img src="yorisoi-logo.svg" alt="yorisoi recipe" style="height: 45px; vertical-align: middle;">
+            </div>
+            <nav class="nav">
+                <a href="dashboard.html">
+                    <iconify-icon icon="lucide:home" style="vertical-align: middle; margin-right: 0.5rem;"></iconify-icon>ダッシュボード
+                </a>
+                <a href="recipes.html">
+                    <iconify-icon icon="lucide:book-open" style="vertical-align: middle; margin-right: 0.5rem;"></iconify-icon>レシピ
+                </a>
+                <a href="calendar.html">
+                    <iconify-icon icon="lucide:calendar-days" style="vertical-align: middle; margin-right: 0.5rem;"></iconify-icon>献立
+                </a>
+                <a href="shopping.html">
+                    <iconify-icon icon="lucide:shopping-cart" style="vertical-align: middle; margin-right: 0.5rem;"></iconify-icon>買い物
+                </a>
+            </nav>
+            <div class="user-menu">
+                <span>こんにちは、田中さん</span>
+                <button class="btn btn-outline">ログアウト</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- メインコンテンツ -->
+    <main class="container">
+        <!-- ウェルカムセクション -->
+        <section class="mb-3">
+            <h1 class="text-center mb-2">今日も美味しい一日を！</h1>
+            <p class="text-center text-secondary">あなたの献立アシスタントがサポートします</p>
+        </section>
+
+        <!-- 今日・明日の献立 -->
+        <section class="mb-3">
+            <h2 class="mb-2"><iconify-icon icon="lucide:calendar-days" style="vertical-align: middle; margin-right: 0.5rem;"></iconify-icon>今日・明日の献立</h2>
+            <div class="card-grid">
+                <div class="card">
+                    <h3 class="recipe-title">今日 (12月15日)</h3>
+                    <div class="meal-plan">
+                        <div class="meal-item mb-2">
+                            <strong><iconify-icon icon="lucide:sunrise" style="vertical-align: middle; margin-right: 0.25rem;"></iconify-icon>朝食:</strong> 
+                            <span class="recipe-name">フレンチトースト</span>
+                        </div>
+                        <div class="meal-item mb-2">
+                            <strong><iconify-icon icon="lucide:sun" style="vertical-align: middle; margin-right: 0.25rem;"></iconify-icon>昼食:</strong> 
+                            <span class="recipe-name">チキンサラダ</span>
+                        </div>
+                        <div class="meal-item">
+                            <strong><iconify-icon icon="lucide:moon" style="vertical-align: middle; margin-right: 0.25rem;"></iconify-icon>夕食:</strong> 
+                            <span class="recipe-name">鮭の照り焼き定食</span>
+                        </div>
+                    </div>
+                    <button class="btn btn-outline mt-2">詳細を見る</button>
+                </div>
+                
+                <div class="card">
+                    <h3 class="recipe-title">明日 (12月16日)</h3>
+                    <div class="meal-plan">
+                        <div class="meal-item mb-2">
+                            <strong><iconify-icon icon="lucide:sunrise" style="vertical-align: middle; margin-right: 0.25rem;"></iconify-icon>朝食:</strong> 
+                            <span class="recipe-name">オムレツ</span>
+                        </div>
+                        <div class="meal-item mb-2">
+                            <strong><iconify-icon icon="lucide:sun" style="vertical-align: middle; margin-right: 0.25rem;"></iconify-icon>昼食:</strong> 
+                            <span class="recipe-name">パスタサラダ</span>
+                        </div>
+                        <div class="meal-item">
+                            <strong><iconify-icon icon="lucide:moon" style="vertical-align: middle; margin-right: 0.25rem;"></iconify-icon>夕食:</strong> 
+                            <span class="recipe-name">ハンバーグセット</span>
+                        </div>
+                    </div>
+                    <button class="btn btn-outline mt-2">編集する</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 買い物予定 -->
+        <section class="mb-3">
+            <h2 class="mb-2"><iconify-icon icon="lucide:shopping-cart" style="vertical-align: middle; margin-right: 0.5rem;"></iconify-icon>次の買い物予定</h2>
+            <div class="card">
+                <div class="flex justify-space-between align-center mb-2">
+                    <h3 class="recipe-title">12月18日 (水曜日)</h3>
+                    <span class="tag">あと2日</span>
+                </div>
+                <p class="text-secondary mb-2">今週の献立に必要な材料をまとめました</p>
+                
+                <div class="shopping-preview">
+                    <div class="flex gap-1 mb-1">
+                        <span class="tag">野菜</span>
+                        <span>玉ねぎ 2個、にんじん 1本、ピーマン 3個</span>
+                    </div>
+                    <div class="flex gap-1 mb-1">
+                        <span class="tag">肉・魚</span>
+                        <span>鶏むね肉 300g、鮭 2切れ</span>
+                    </div>
+                    <div class="flex gap-1 mb-2">
+                        <span class="tag">その他</span>
+                        <span>卵 6個、牛乳 1本</span>
+                    </div>
+                </div>
+                
+                <div class="flex gap-2">
+                    <button class="btn btn-primary">完全なリストを見る</button>
+                    <button class="btn btn-secondary">リストを共有</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- クイックアクション -->
+        <section class="mb-3">
+            <h2 class="mb-2"><iconify-icon icon="lucide:zap" style="vertical-align: middle; margin-right: 0.5rem;"></iconify-icon>クイックアクション</h2>
+            <div class="card-grid">
+                <div class="card text-center">
+                    <div style="font-size: 3rem; margin-bottom: 1rem; color: var(--primary-color);">
+                        <iconify-icon icon="lucide:chef-hat" style="font-size: 3rem;"></iconify-icon>
+                    </div>
+                    <h3 class="recipe-title">AIでレシピ作成</h3>
+                    <p class="recipe-description">YouTubeのURLを貼り付けて、AIにレシピを作ってもらいましょう</p>
+                    <button class="btn btn-primary" onclick="location.href='recipe-create.html'">今すぐ作成</button>
+                </div>
+                
+                <div class="card text-center">
+                    <div style="font-size: 3rem; margin-bottom: 1rem; color: var(--secondary-color);">
+                        <iconify-icon icon="lucide:calendar-days" style="font-size: 3rem;"></iconify-icon>
+                    </div>
+                    <h3 class="recipe-title">献立を編集</h3>
+                    <p class="recipe-description">今週や来週の献立を調整して、バランスの良い食事を計画しましょう</p>
+                    <button class="btn btn-primary" onclick="location.href='calendar.html'">カレンダーを開く</button>
+                </div>
+                
+                <div class="card text-center">
+                    <div style="font-size: 3rem; margin-bottom: 1rem; color: var(--accent-color);">
+                        <iconify-icon icon="lucide:book-open" style="font-size: 3rem;"></iconify-icon>
+                    </div>
+                    <h3 class="recipe-title">レシピブック</h3>
+                    <p class="recipe-description">これまでに作成したレシピを確認・編集できます</p>
+                    <button class="btn btn-primary" onclick="location.href='recipes.html'">レシピを見る</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 最近のアクティビティ -->
+        <section class="mb-3">
+            <h2 class="mb-2"><iconify-icon icon="lucide:activity" style="vertical-align: middle; margin-right: 0.5rem;"></iconify-icon>最近のアクティビティ</h2>
+            <div class="card">
+                <div class="activity-list">
+                    <div class="activity-item flex align-center mb-2">
+                        <div class="activity-icon" style="width: 40px; height: 40px; background: var(--primary-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 1rem; color: white;">
+                            <iconify-icon icon="lucide:plus-circle" style="font-size: 1.5rem;"></iconify-icon>
+                        </div>
+                        <div class="flex-1">
+                            <strong>新しいレシピを追加しました</strong>
+                            <div class="text-secondary">「チキンカレー」- 2時間前</div>
+                        </div>
+                    </div>
+                    
+                    <div class="activity-item flex align-center mb-2">
+                        <div class="activity-icon" style="width: 40px; height: 40px; background: var(--secondary-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 1rem; color: white;">
+                            <iconify-icon icon="lucide:calendar-plus" style="font-size: 1.5rem;"></iconify-icon>
+                        </div>
+                        <div class="flex-1">
+                            <strong>来週の献立を作成しました</strong>
+                            <div class="text-secondary">12月22日〜28日 - 昨日</div>
+                        </div>
+                    </div>
+                    
+                    <div class="activity-item flex align-center">
+                        <div class="activity-icon" style="width: 40px; height: 40px; background: var(--accent-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 1rem; color: white;">
+                            <iconify-icon icon="lucide:check-circle" style="font-size: 1.5rem;"></iconify-icon>
+                        </div>
+                        <div class="flex-1">
+                            <strong>買い物リストを完了しました</strong>
+                            <div class="text-secondary">12月13日の買い物 - 2日前</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- フローティングボタン -->
+    <button class="floating-btn" onclick="showQuickActions()" title="クイックアクション">
+        <iconify-icon icon="lucide:plus" style="font-size: 1.5rem;"></iconify-icon>
+    </button>
+
+    <!-- クイックアクションメニュー（非表示） -->
+    <div id="quickActionMenu" class="hidden" style="position: fixed; bottom: 5rem; right: 2rem; background: white; border-radius: 8px; box-shadow: var(--shadow-hover); padding: 1rem; z-index: 60;">
+        <div class="flex flex-column gap-1">
+            <button class="btn btn-primary" onclick="location.href='recipe-create.html'">
+                <iconify-icon icon="lucide:chef-hat" style="vertical-align: middle; margin-right: 0.5rem;"></iconify-icon>AIレシピ作成
+            </button>
+            <button class="btn btn-secondary" onclick="location.href='recipes.html'">
+                <iconify-icon icon="lucide:edit" style="vertical-align: middle; margin-right: 0.5rem;"></iconify-icon>手動レシピ作成
+            </button>
+            <button class="btn btn-outline" onclick="location.href='calendar.html'">
+                <iconify-icon icon="lucide:calendar-days" style="vertical-align: middle; margin-right: 0.5rem;"></iconify-icon>献立編集
+            </button>
+        </div>
+    </div>
+
+    <script>
+        function showQuickActions() {
+            const menu = document.getElementById('quickActionMenu');
+            menu.classList.toggle('hidden');
+        }
+
+        // メニュー外をクリックしたら閉じる
+        document.addEventListener('click', function(event) {
+            const menu = document.getElementById('quickActionMenu');
+            const floatingBtn = document.querySelector('.floating-btn');
+            
+            if (!menu.contains(event.target) && event.target !== floatingBtn) {
+                menu.classList.add('hidden');
+            }
+        });
+    </script>
+</body>
+</html> 
