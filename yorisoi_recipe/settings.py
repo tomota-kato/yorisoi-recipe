@@ -12,22 +12,26 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 import os
-from decouple import config
+import sys
+# from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# appsディレクトリをPythonパスに追加
+sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config('SECRET_KEY', default='django-insecure-h(e(fiwm52+bga($btx7_2a8#5-jyxv*+pyz4&arguf&!)15%4')
+SECRET_KEY = 'django-insecure-h(e(fiwm52+bga($btx7_2a8#5-jyxv*+pyz4&arguf&!)15%4'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG', default=True, cast=bool)
+DEBUG = True
 
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1', cast=lambda v: [s.strip() for s in v.split(',')])
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
 # Application definition
@@ -43,11 +47,14 @@ INSTALLED_APPS = [
     # Third party apps
     'rest_framework',
     'corsheaders',
-    'django_filters',
     
-    # Local apps
-    'accounts',
-    'recipes',
+    # Local apps (appsディレクトリ内)
+    'apps.accounts',
+    'apps.recipes',
+    'apps.menus',
+    'apps.shopping',
+    'apps.ingredients',
+    'apps.core',
 ]
 
 MIDDLEWARE = [
@@ -70,9 +77,12 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.static',
+                'django.template.context_processors.media',
             ],
         },
     },
@@ -120,6 +130,8 @@ TIME_ZONE = 'Asia/Tokyo'
 
 USE_I18N = True
 
+USE_L10N = True
+
 USE_TZ = True
 
 
@@ -161,6 +173,34 @@ REST_FRAMEWORK = {
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
+    "http://localhost:8000",
+    "http://127.0.0.1:8000",
 ]
 
 CORS_ALLOW_CREDENTIALS = True
+
+# AI API Settings (環境変数から取得)
+OPENAI_API_KEY = os.getenv('OPENAI_API_KEY', '')
+GOOGLE_GEMINI_API_KEY = os.getenv('GOOGLE_GEMINI_API_KEY', '')
+
+# YouTube API Settings
+YOUTUBE_API_KEY = os.getenv('YOUTUBE_API_KEY', '')
+
+# ログイン・ログアウト設定
+LOGIN_URL = '/accounts/login/'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+
+# セッション設定
+SESSION_COOKIE_AGE = 86400  # 24時間
+SESSION_SAVE_EVERY_REQUEST = True
+
+# 通知設定（Firebase Cloud Messaging等）
+FCM_SERVER_KEY = os.getenv('FCM_SERVER_KEY', '')
+
+# 買い物リスト生成設定
+SHOPPING_DAYS = [2, 6]  # 水曜日(2)と日曜日(6)
+NOTIFICATION_TIME = {'hour': 20, 'minute': 0}  # 20:00に通知
+
+# カスタムユーザーモデル（将来的に必要になった場合）
+# AUTH_USER_MODEL = 'accounts.CustomUser'

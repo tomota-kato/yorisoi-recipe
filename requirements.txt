@@ -1,11 +1,61 @@
-Django==5.0.1
-django-cors-headers==4.3.1
-djangorestframework==3.14.0
+# Core Django packages
+Django==5.2.3
+djangorestframework==3.15.2
+
+# Database
+psycopg2-binary==2.9.9  # PostgreSQL support
+mysqlclient==2.2.4      # MySQL support
+
+# API and Web scraping
+requests==2.32.3
+beautifulsoup4==4.12.3
+selenium==4.23.1
+
+# AI/ML libraries
+openai==1.42.0
+google-generativeai==0.7.2
+transformers==4.44.2
+torch==2.4.0
+spacy==3.7.5
+
+# YouTube API
+google-api-python-client==2.143.0
+google-auth-httplib2==0.2.0
+google-auth-oauthlib==1.2.1
+
+# Image processing
+Pillow==10.4.0
+
+# Utilities
 python-decouple==3.8
-Pillow>=10.0.0
-psycopg2-binary==2.9.9
-django-allauth==0.57.0
-celery==5.3.4
-redis==5.0.1
+celery==5.4.0
+redis==5.0.8
+
+# Development tools
+django-debug-toolbar==4.4.6
 django-extensions==3.2.3
-python-dotenv==1.0.0 
+
+# CORS handling
+django-cors-headers==4.4.0
+
+# Task scheduling
+django-crontab==0.7.1
+
+# Notification services
+pyfcm==1.5.4
+
+# Testing
+pytest==8.3.2
+pytest-django==4.8.0
+factory-boy==3.3.0
+
+# Code quality
+black==24.8.0
+flake8==7.1.1
+isort==5.13.2
+
+# Environment management
+python-dotenv==1.0.1
+
+# Time zone handling
+pytz==2024.1 

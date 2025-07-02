@@ -18,11 +18,19 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from accounts import views as auth_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('recipes.urls')),
     path('api/', include('accounts.urls')),
+    path('accounts/', include('allauth.urls')),
+    
+    # 認証画面
+    path('login/', auth_views.login_view, name='login'),
+    path('register/', auth_views.register_view, name='register'),
+    path('dashboard/', auth_views.dashboard_view, name='dashboard'),
+    path('', auth_views.login_view, name='home'),  # ホーム画面はログイン画面にリダイレクト
 ]
 
 # 開発環境でのメディアファイル配信
